@@ -4,21 +4,20 @@
 
 ```mermaid
 sequenceDiagram
-    actor user
     participant web
     participant backend
     participant ChromaDB
     participant OpenAI
+    participant reranker
 
-    user ->> web: クエリ入力
     web ->> backend: クエリ送信
     backend ->> OpenAI: API呼び出し
     OpenAI ->> backend: Embedding
     backend ->> ChromaDB: ベクトル検索
     ChromaDB ->> backend: ベクトル検索結果(上位10件)
-    backend ->> backend: Rerank
-    backend ->> web: 検索結果
-    web ->> user: 検索結果表示
+    backend ->> reranker: rerankのリクエスト
+    reranker ->> backend: rerank結果
+    backend ->> web: Rerank結果Json
 ```
 
 ## 動かし方
